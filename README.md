@@ -12,6 +12,8 @@ pip install mysqlclient-1.4.6-cp38-cp38-win32.whl
 ```
 
 Back-end AWS EC2
+ssh -i "tron.pem" ubuntu@ec2-3-141-166-71.us-east-2.compute.amazonaws.com
+
 http://3.141.166.71:8080/
 ec2-3-141-166-71.us-east-2.compute.amazonaws.com
 
