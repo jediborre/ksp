@@ -5,7 +5,11 @@ from .database import engine
 
 models.Base.metadata.create_all(bind=engine)
 
-app = FastAPI()
+app = FastAPI(
+    title="KSP API",
+    description="API para el proyecto KSP",
+    version="0.1.0"
+)
 
 app.add_middleware(
     CORSMiddleware,
