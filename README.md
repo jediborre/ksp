@@ -11,6 +11,13 @@ Para instalacion driver MysqlDb en Windows 10 Python 3.8
 pip install mysqlclient-1.4.6-cp38-cp38-win32.whl
 ```
 
+Back-end AWS EC2
+http://3.141.166.71:8080/
+ec2-3-141-166-71.us-east-2.compute.amazonaws.com
+
+RDS MySQL AWS
+ksp.c8nkbwvzvgzd.us-east-2.rds.amazonaws.com
+
 ------------
 
 **OBJETIVO** 
