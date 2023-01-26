@@ -1,22 +1,21 @@
-from sqlalchemy import Date
 from datetime import datetime
 from pydantic import BaseModel
 
 
-class Empleado(BaseModel):
+class EmpleadoSchema(BaseModel):
     id: int
     foto: str
     nombre: str
-    job: str
+    trabajo: str
     salario: float
     status: str
     fecha_contratacion: datetime
 
 
-class Beneficiario(BaseModel):
+class BeneficiarioSchema(BaseModel):
     id: int
     id_empleado: int
     nombre: str
     parentesco: str
-    cumpleanos: Date
+    cumpleanos: str
     sexo: str

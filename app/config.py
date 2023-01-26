@@ -2,11 +2,10 @@ from pydantic import BaseSettings
 
 
 class Settings(BaseSettings):
-    DATABASE_PORT: int
     MYSQL_PASSWORD: str
-    MYSQL_USER: str
+    MYSQL_USERNAME: str
+    MYSQL_PORT: int
     MYSQL_DB: str
-    MYSQL_HOST: str
     MYSQL_HOSTNAME: str
 
     class Config:

@@ -11,8 +11,6 @@ MYSQL_DATABASE_URL = f"mysql://"\
 
 Base = declarative_base()
 engine = create_engine(MYSQL_DATABASE_URL)
-
-Base.metadata.create_all(bind=engine)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 

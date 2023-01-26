@@ -5,12 +5,12 @@ from sqlalchemy import Column, Integer, String, Date, Float
 class Empleados(Base):
     __tablename__ = 'empleados'
     id = Column(Integer, primary_key=True, index=True)
-    photo = Column(String)
-    name = Column(String)
-    job = Column(String)
-    salary = Column(Float)
+    foto = Column(String)
+    nombre = Column(String)
+    trabajo = Column(String)
+    salario = Column(Float)
     status = Column(String)
-    hire_date = Column(Date)
+    fecha_contratacion = Column(Date)
 
 
 class Beneficiario(Base):
@@ -19,5 +19,5 @@ class Beneficiario(Base):
     id_empleado = Column(Integer)
     nombre = Column(String)
     parentesco = Column(String)
-    cumpleanos = Column(Date)
+    cumpleanos = Column(String)
     sexo = Column(String)
