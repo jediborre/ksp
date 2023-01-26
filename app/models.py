@@ -2,8 +2,8 @@ from .database import Base
 from sqlalchemy import Column, Integer, String, Date, Float
 
 
-class Employee(Base):
-    __tablename__ = 'employees'
+class Empleados(Base):
+    __tablename__ = 'empleados'
     id = Column(Integer, primary_key=True, index=True)
     photo = Column(String)
     name = Column(String)
@@ -14,7 +14,7 @@ class Employee(Base):
 
 
 class Beneficiary(Base):
-    __tablename__ = 'beneficiaries'
+    __tablename__ = 'beneficiarios'
     id = Column(Integer, primary_key=True, index=True)
     id_empleado = Column(Integer)
     nombre = Column(String)
