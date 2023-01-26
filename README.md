@@ -1,7 +1,10 @@
 # KSP
 Prueba enconmendada por KSP
 
-
+Para correr backend
+```console
+uvicorn app.main:app --host localhost --port 8000 --reload
+```
 
 ------------
 
