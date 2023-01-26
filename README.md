@@ -6,6 +6,11 @@ Para correr backend
 uvicorn app.main:app --host localhost --port 8000 --reload
 ```
 
+Para instalacion driver MysqlDb en Windows 10 Python 3.8
+```console
+pip install mysqlclient-1.4.6-cp38-cp38-win32.whl
+```
+
 ------------
 
 **OBJETIVO** 
