@@ -13,8 +13,8 @@ class Empleados(Base):
     hire_date = Column(Date)
 
 
-class Beneficiary(Base):
-    __tablename__ = 'beneficiarios'
+class Beneficiario(Base):
+    __tablename__ = 'beneficiario'
     id = Column(Integer, primary_key=True, index=True)
     id_empleado = Column(Integer)
     nombre = Column(String)
