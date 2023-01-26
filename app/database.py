@@ -4,7 +4,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 
-MYSQL_DATABASE_URL = f"mysql://"\
+MYSQL_DATABASE_URL = f"mysql+pymysql://"\
                     f"{settings.MYSQL_USERNAME}:{settings.MYSQL_PASSWORD}@"\
                     f"{settings.MYSQL_HOSTNAME}:{settings.MYSQL_PORT}/"\
                     f"{settings.MYSQL_DB}"
