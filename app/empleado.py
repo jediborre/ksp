@@ -41,7 +41,7 @@ def create_empleado(
     }
 
 
-@router.put("/empleado/{id}")
+@router.put("/{id}")
 def update_empleado(
     id: int,
     empleado: schema.EmpleadoSchema,
@@ -65,7 +65,7 @@ def update_empleado(
     return db_empleado
 
 
-@router.delete("/empleado/{id}", status_code=status.HTTP_200_OK)
+@router.delete("/{id}", status_code=status.HTTP_200_OK)
 def delete_empleado(id: int, db: Session = Depends(get_db)):
     empleado = db.query(
         models.Empleados

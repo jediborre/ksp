@@ -1,4 +1,4 @@
-from app import models, empleado
+from app import models, empleado, beneficiario
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .database import engine
@@ -19,7 +19,16 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(empleado.router, tags=['Empleados'], prefix='/api/empleado')
+app.include_router(
+    empleado.router,
+    tags=['Empleados'],
+    prefix='/api/empleado'
+)
+app.include_router(
+    beneficiario.router,
+    tags=['Beneficiario'],
+    prefix='/api/beneficiario'
+)
 
 
 @app.get('/')
