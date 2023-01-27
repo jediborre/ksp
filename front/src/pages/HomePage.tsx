@@ -1,6 +1,4 @@
-import { useEffect, useState } from "react";
-import Table from "../components/Empleados/TableComponent";
-
+import EmpleadosTable from "../components/Empleados/EmpleadosTableComponent";
 
 function HomePage() {
   return (
@@ -11,7 +9,7 @@ function HomePage() {
         </h1> 
       </div>
       <div>
-        <Table/>
+        <EmpleadosTable/>
       </div>
     </>
   );

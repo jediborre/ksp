@@ -35,8 +35,10 @@ export const api = createApi({
   endpoints: (builder) => ({
     getEmpleados: builder.query<EmpleadoQuery, void>({
       query: () => `api/empleado/?limit=500&page=1`,
-      // transformResponse: (response): Empleados => response.data.empleados,
       providesTags: ['Empleados'],
+    }),
+    getEmpleadosByNombre: builder.query<EmpleadoQuery, string>({
+      query: (nombre) => `api/empleado/?limit=500&page=1&search=${encodeURIComponent(nombre)}`,
     }),
     getBeneficiarios: builder.query<Beneficiarios, string>({
       query: (id_empleado) => `api/beneficiario/${id_empleado}`,
@@ -47,5 +49,6 @@ export const api = createApi({
 
 export const {
   useGetEmpleadosQuery,
+  useGetEmpleadosByNombreQuery,
   useGetBeneficiariosQuery
 } = api
