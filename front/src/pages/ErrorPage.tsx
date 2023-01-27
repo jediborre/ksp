@@ -1,9 +1,11 @@
 function ErrorPage() {
-    return (
-      <div className="p-4 flex text-center items-center flex-center text-white font-bold text-2xl mx-auto">
-        An error occurred 😢
+  return (
+    <div className="bg-gray-800 h-screen flex justify-center justify-items-center align-middle">
+      <div className="p-4 mx-auto">
+        <div className="text-center text-white font-bold text-2xl">Un bug ocurrio 😢</div>
       </div>
-    )
-  }
-  
-  export default ErrorPage
+    </div>
+  )
+}
+
+export default ErrorPage

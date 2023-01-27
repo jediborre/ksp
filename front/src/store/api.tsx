@@ -1,17 +1,44 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
-const baseUrl = import.meta.env.VITE_API_URL;
+export interface Empleado {
+  id: number
+  nombre: string,
+  trabajo: string,
+  salario: number,
+  status: string,
+  foto: string,
+  fecha_contratacion: string,
+}
+type Empleados = Empleado[];
+export interface beneficiario {
+  id: number
+  id_empleado: number
+  nombre: string
+  parentesco: string
+  cumpleanos: string
+  sexo: string
+}
+type Beneficiarios = beneficiario[];
+
+const baseUrl = 'http://3.141.166.71:8080/';
 
 export const api = createApi({
-  reducerPath: 'rickAndMortyApi',
+  reducerPath: 'Empleados',
   baseQuery: fetchBaseQuery({ baseUrl }),
+  tagTypes: ['Empleados', 'Beneficiarios'],
   endpoints: (builder) => ({
-    getCharacters: builder.query({
-      query: ({page, status = '', species = '', type = '', gender = ''}) => {
-        return `character?page=${page}&status=${status}&species=${species}&type=${type}&gender=${gender}`
-      },
+    getEmpleados: builder.query<Empleados, void>({
+      query: () => `api/empleado/?limit=500&page=1`,
+      providesTags: ['Empleados'],
+    }),
+    getBeneficiarios: builder.query<Beneficiarios, string>({
+      query: (id_empleado) => `api/beneficiario/${id_empleado}`,
+      providesTags: ['Beneficiarios'],
     }),
   }),
 })
 
-export const getCharacters = api
+export const {
+  useGetEmpleadosQuery,
+  useGetBeneficiariosQuery
+} = api
