@@ -10,7 +10,7 @@ export default function FooterComponent() {
                 </div>
                 <div className="mr-10">
                     <h2 className="text-white">
-                        <a href="tel:+525560145372" className='hover:opacity-50'>
+                        <a href="tel:+525560145372" className='hover:text-cyan-300'>
                             <FontAwesomeIcon icon={faPhone} />
                             +52 55.6014.5372
                         </a>
