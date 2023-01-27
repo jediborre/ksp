@@ -1,6 +1,6 @@
 from . import schema, models
 from sqlalchemy.orm import Session
-from fastapi import Depends, status, APIRouter, HTTPException  # , Response
+from fastapi import Depends, status, APIRouter, HTTPException, Response
 from .database import get_db
 
 router = APIRouter()
@@ -16,8 +16,8 @@ def get_empleados(
     skip = (page - 1) * limit
 
     empleados = db.query(models.Empleados).filter(
-            models.Empleados.nombre.contains(search)
-        ).limit(limit).offset(skip).all()
+        models.Empleados.nombre.contains(search)
+    ).limit(limit).offset(skip).all()
 
     return {
         'status': 'success',
@@ -31,51 +31,60 @@ def create_empleado(
     payload: schema.EmpleadoSchema,
     db: Session = Depends(get_db)
 ):
-    empleado = models.Empleados(**payload.dict())
-    db.add(empleado)
+    nuevo_empleado = models.Empleados(**payload.dict())
+
+    db.add(nuevo_empleado)
     db.commit()
-    db.refresh(empleado)
+    db.refresh(nuevo_empleado)
+
     return {
         "status": "success",
-        "empleado": empleado
+        "empleado": nuevo_empleado
     }
 
 
-@router.put("/{id}")
+@router.patch("/{id}")
 def update_empleado(
     id: int,
-    empleado: schema.EmpleadoSchema,
+    payload: schema.EmpleadoSchema,
     db: Session = Depends(get_db)
 ):
-    db_empleado = db.query(
-        models.Empleados
-    ).filter(models.Empleados.id == id).first()
-    if db_empleado is None:
+    empleado_query = db.query(models.Empleados).filter(
+        models.Empleados.id == id
+    )
+    db_empleado = empleado_query.first()
+    if not db_empleado:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detalle="Empleado no encontrado"
+            detail="Empleado no encontrado"
         )
-    # db_empleado.foto = empleado.foto
-    db_empleado.nombre = empleado.nombre
-    db_empleado.trabajo = empleado.trabajo
-    db_empleado.salario = empleado.salario
-    db_empleado.status = empleado.status
-    db_empleado.fecha_contratacion = empleado.fecha_contratacion
+
+    update_data = payload.dict(exclude_unset=True)
+    empleado_query.filter(models.Empleados.id == id).update(
+        update_data, synchronize_session=False
+    )
     db.commit()
-    return db_empleado
+    db.refresh(db_empleado)
+
+    return {
+        "status": "success",
+        "empleado": db_empleado
+    }
 
 
 @router.delete("/{id}", status_code=status.HTTP_200_OK)
 def delete_empleado(id: int, db: Session = Depends(get_db)):
-    empleado = db.query(
-        models.Empleados
-        ).filter(models.Empleados.id == id).first()
-    if empleado is None:
+    empleado_query = db.query(models.Empleados).filter(
+        models.Empleados.id == id
+    )
+    db_empleado = empleado_query.first()
+    if not db_empleado:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detalle="Empleado no encontrado"
+            detail="Empleado no encontrado"
         )
-    db.delete(empleado)
+
+    db_empleado.delete(synchronize_session=False)
     db.commit()
 
-    return {"message": "Empleado eliminado"}
+    return Response(status_code=status.HTTP_204_NO_CONTENT)

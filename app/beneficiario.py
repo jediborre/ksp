@@ -1,6 +1,6 @@
 from . import schema, models
 from sqlalchemy.orm import Session
-from fastapi import Depends, status, APIRouter, HTTPException
+from fastapi import Depends, status, APIRouter, HTTPException, Response
 from .database import get_db
 
 router = APIRouter()
@@ -11,13 +11,11 @@ def get_beneficiario(
     id_empleado: int,
     db: Session = Depends(get_db)
 ):
-    print(f'id_empleado {id}')
-    empleado = db.query(
-        models.Empleados
-    ).filter(
+    empleado_query = db.query(models.Empleados).filter(
         models.Empleados.id == id_empleado
-    ).first()
-    if empleado is None:
+    )
+    db_empleado = empleado_query.first()
+    if not db_empleado:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Empleado no existe"
@@ -34,69 +32,67 @@ def get_beneficiario(
     }
 
 
-@router.post('/{id}', status_code=status.HTTP_201_CREATED)
+@router.post('/', status_code=status.HTTP_201_CREATED)
 def create_beneficiario(
     payload: schema.BeneficiarioSchema,
     db: Session = Depends(get_db)
 ):
-    empleado = db.query(
-        models.Empleados
-        ).filter(models.Empleados.id == id).first()
-    if empleado is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Empleado no existe"
-        )
-    beneficiario = models.Beneficiario(**payload.dict())
-    db.add(beneficiario)
 
+    nuevo_beneficiario = models.Beneficiario(**payload.dict())
+
+    db.add(nuevo_beneficiario)
     db.commit()
-    db.refresh(beneficiario)
+    db.refresh(nuevo_beneficiario)
+
     return {
         "status": "success",
-        "beneficiario": beneficiario
+        "beneficiario": nuevo_beneficiario
     }
 
 
-@router.put("/{id}")
+@router.patch("/{id}")
 def update_beneficiario(
     id: int,
-    beneficiario: schema.BeneficiarioSchema,
+    payload: schema.BeneficiarioSchema,
     db: Session = Depends(get_db)
 ):
-    db_beneficiario = db.query(
-        models.Empleados
-    ).filter(models.Empleados.id == id).first()
-    if db_beneficiario is None:
+    beneficiario_query = db.query(models.Beneficiario).filter(
+        models.Beneficiario.id == id
+    )
+    db_beneficiario = beneficiario_query.first()
+
+    if not db_beneficiario:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="Empleado sin beneficiarios"
+            detail="beneficiario no existe"
         )
 
-    db_beneficiario.sexo = beneficiario.sexo
-    db_beneficiario.nombre = beneficiario.nombre
-    db_beneficiario.parentesco = beneficiario.parentesco
-    db_beneficiario.cumpleanos = beneficiario.cumpleanos
-
+    update_data = payload.dict(exclude_unset=True)
+    beneficiario_query.filter(models.Beneficiario.id == id).update(
+        update_data, synchronize_session=False
+    )
     db.commit()
+    db.refresh(db_beneficiario)
 
-    return db_beneficiario
+    return {
+        "status": "success",
+        "beneficiario": db_beneficiario
+    }
 
 
 @router.delete("/{id}", status_code=status.HTTP_200_OK)
-def delete_beneficiario(
-    id: int,
-    db: Session = Depends(get_db)
-):
-    beneficiario = db.query(
-        models.Beneficiario
-        ).filter(models.Beneficiario.id == id).first()
-    if beneficiario is None:
+def delete_beneficiario(id: int, db: Session = Depends(get_db)):
+    beneficiario_query = db.query(models.Beneficiario).filter(
+        models.Beneficiario.id == id
+    )
+    beneficiario = beneficiario_query.first()
+    if not beneficiario:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Empleado sin beneficiarios"
         )
-    db.delete(beneficiario)
+
+    beneficiario.delete(synchronize_session=False)
     db.commit()
 
-    return {"message": "Beneficiario eliminado"}
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
