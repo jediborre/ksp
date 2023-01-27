@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
+import Table from "../components/TableComponent";
 
 
 function HomePage() {
-
-  const goTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
-
   return (
     <>
-        <h1 className="text-white">Home</h1>
+      <div className="pt-10">
+        <h1 className="text-2xl text-white text-center">
+          Empleados
+        </h1> 
+      </div>
+      <div>
+        <Table/>
+      </div>
     </>
   );
 }
