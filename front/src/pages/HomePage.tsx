@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Table from "../components/TableComponent";
+import Table from "../components/Empleados/TableComponent";
 
 
 function HomePage() {

@@ -1,6 +1,6 @@
-import RowLoader from "./RowLoaderComponent";
+import RowLoader from "../Preloaders/RowLoaderComponent";
 import EmpleadoRow from "./EmpleadoRowComponent";
-import { useGetEmpleadosQuery, Empleados } from "../store/api";
+import { useGetEmpleadosQuery, Empleados } from "../../store/api";
 
 export default function Table() {
     const getEmpleados = (lista: Empleados) => {
