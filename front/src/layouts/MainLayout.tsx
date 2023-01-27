@@ -6,7 +6,7 @@ export default function MainLayout() {
 
   return (
     <div className="dark">
-      <div className={`scrollbar dark:bg-slate-700 bg-slate-200 min-h-screen`}>
+      <div className={`scrollbar dark:bg-slate-700 bg-slate-200 flex flex-col h-screen justify-between`}>
         <NavbarComponent />
         <main className="pt-8">
           <Outlet />
