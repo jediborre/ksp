@@ -6,16 +6,16 @@ export default function RowLoader() {
             <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 <CellLoader width="250"/>
             </th>
-            <td className="px-6 py-4">
+            <td className="px-6 py-3">
+                <CellLoader width="250"/>
+            </td>
+            <td className="px-6 py-3">
                 <CellLoader width="100"/>
             </td>
-            <td className="px-6 py-4">
+            <td className="px-6 py-3">
                 <CellLoader width="100"/>
             </td>
-            <td className="px-6 py-4">
-                <CellLoader width="100"/>
-            </td>
-            <td className="px-6 py-4 text-right">
+            <td className="px-6 py-3 text-right">
             </td>
         </tr>
     )

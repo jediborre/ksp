@@ -1,5 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
+export interface EmpleadoQuery {
+  status: number
+  result: string,
+  empleados: Empleado[],
+}
 export interface Empleado {
   id: number
   nombre: string,
@@ -9,7 +14,8 @@ export interface Empleado {
   foto: string,
   fecha_contratacion: string,
 }
-type Empleados = Empleado[];
+export type Empleados = Empleado[];
+
 export interface beneficiario {
   id: number
   id_empleado: number
@@ -27,8 +33,9 @@ export const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl }),
   tagTypes: ['Empleados', 'Beneficiarios'],
   endpoints: (builder) => ({
-    getEmpleados: builder.query<Empleados, void>({
+    getEmpleados: builder.query<EmpleadoQuery, void>({
       query: () => `api/empleado/?limit=500&page=1`,
+      // transformResponse: (response): Empleados => response.data.empleados,
       providesTags: ['Empleados'],
     }),
     getBeneficiarios: builder.query<Beneficiarios, string>({

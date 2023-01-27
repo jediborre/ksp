@@ -1,11 +1,31 @@
 import RowLoader from "./RowLoaderComponent";
 import EmpleadoRow from "./EmpleadoRowComponent";
-import { useGetEmpleadosQuery } from "../store/api";
+import { useGetEmpleadosQuery, Empleados } from "../store/api";
 
 export default function Table() {
+    const getEmpleados = (lista: Empleados) => {
+        const empleados = lista.map((empleado) => {
+            return (
+            <EmpleadoRow
+                key={empleado.id}
+                id={empleado.id}
+                foto={empleado.foto}
+                nombre={empleado.nombre}
+                trabajo={empleado.trabajo}
+                salario={empleado.salario}
+                status={empleado.status}
+                fecha_contratacion={empleado.fecha_contratacion}
+            />
+            );
+        });
+        console.log(empleados);
+        return empleados;
+    }
     const {data: empleados, isLoading, isSuccess} = useGetEmpleadosQuery();
     let rows;
-    let preloadRows = 8;
+    let preloadRows = 12;
+    const empleados_proc = empleados?.empleados;
+    
     if (isLoading) {
         rows = 
         <>{
@@ -19,24 +39,14 @@ export default function Table() {
     else if (isSuccess) {
         rows =
             <>{
-                (empleados.length === 0) ? (
+                (parseInt(empleados.result) === 0) ? (
                     <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                         <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             No hay empleados
                         </th>
                     </tr>
                 ) :
-                empleados.map((empleado) => {
-                    <EmpleadoRow
-                        id={empleado.id}
-                        foto={empleado.foto}
-                        nombre={empleado.nombre}
-                        trabajo={empleado.trabajo}
-                        salario={empleado.salario}
-                        status={empleado.status}
-                        fecha_contratacion={empleado.fecha_contratacion}
-                    />
-                })
+                getEmpleados(empleados.empleados)
             }</>
     }
     else {
@@ -48,7 +58,7 @@ export default function Table() {
             </tr>
     }
     return (
-    <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <div className="shadow-md sm:rounded-lg">
         <div className="flex items-center justify-between pb-2">
             <div></div>
             <div>
@@ -62,7 +72,7 @@ export default function Table() {
             </div>
         </div>
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <thead className="sticky text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th scope="col" className="px-6 py-3">
                         Nombre
@@ -71,10 +81,10 @@ export default function Table() {
                         Trabajo
                     </th>
                     <th scope="col" className="px-6 py-3">
-                        Status
+                        Salario
                     </th>
                     <th scope="col" className="px-6 py-3">
-                        Salario
+                        Status
                     </th>
                     <th scope="col" className="px-6 py-3">
                         <span className="sr-only">Edit</span>
