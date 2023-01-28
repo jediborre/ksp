@@ -86,7 +86,7 @@ export default function EmpleadosTable() {
                 status={empleadoById.status}
                 foto={empleadoById.foto}
                 fecha_contratacion={empleadoById.fecha_contratacion}
-                onClose={() => setShowModal(true)}
+                onClose={() => setShowModal(false)}
             />
 
     return (
