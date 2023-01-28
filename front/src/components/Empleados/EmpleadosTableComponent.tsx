@@ -2,37 +2,45 @@ import { useState } from "react";
 import RowLoader from "../Preloaders/RowLoaderComponent";
 import SearchBar from "./SearchBarComponent";
 import EmpleadoRow from "./EmpleadoRowComponent";
-import { useGetEmpleadosQuery, useGetEmpleadosByNombreQuery, Empleados } from "../../store/api";
-
-const getEmpleados = (lista: Empleados) => {
-    const empleados = lista.map((empleado) => {
-        return (
-        <EmpleadoRow
-            key={empleado.id}
-            id={empleado.id}
-            foto={empleado.foto}
-            nombre={empleado.nombre}
-            trabajo={empleado.trabajo}
-            salario={empleado.salario}
-            status={empleado.status}
-            fecha_contratacion={empleado.fecha_contratacion}
-        />
-        );
-    });
-    return empleados;
-}
+import EmpleadoDetalle from "./EmpleadoDetalleComponent";
+import { useGetEmpleadosQuery, useGetEmpleadosByNombreQuery, useGetEmpleadoByIdQuery, Empleados } from "../../store/api";
 
 export default function EmpleadosTable() {
     const [searchTerm, setSearchTerm] = useState('');
+    const [idEmpleado, setIdEmpleado] = useState(0);
+    const [showModal, setShowModal] = useState(false);
 
     const {data: empleados, isLoading, isSuccess} = useGetEmpleadosQuery();
-    const {data: personajeByNombre, isLoading: isLoadingBusqueda, isSuccess: isSuccessBusqueda} = useGetEmpleadosByNombreQuery(searchTerm);
+    const {data: empleadoById} = useGetEmpleadoByIdQuery(idEmpleado, { refetchOnMountOrArgChange: true });
+    const {data: empleadoByNombre} = useGetEmpleadosByNombreQuery(searchTerm, { refetchOnMountOrArgChange: true });
 
-    let rows;
+    let rows, modal;
     let preloadRows = 12;
+
+    const getEmpleados = (lista: Empleados) => {
+        const empleados = lista.map((empleado) => {
+            return (
+            <EmpleadoRow
+                key={empleado.id}
+                id={empleado.id}
+                foto={empleado.foto}
+                nombre={empleado.nombre}
+                trabajo={empleado.trabajo}
+                salario={empleado.salario}
+                status={empleado.status}
+                fecha_contratacion={empleado.fecha_contratacion}
+                click={(pId) => {
+                    console.log(`Empleado #${pId}`);
+                    setIdEmpleado(pId);
+                    setShowModal(true); 
+                }}
+            />
+            );
+        });
+        return empleados;
+    }
     
-    console.log('isLoading', isLoading, '\nisLoadingBusqueda', isLoadingBusqueda);
-    if (isLoading || isLoadingBusqueda) {
+    if (isLoading) {
         rows = 
         <>{
             [...Array(preloadRows)].map((e, n) => {
@@ -42,21 +50,23 @@ export default function EmpleadosTable() {
             })
         }</>
     }
-    else if (isSuccess || isSuccessBusqueda) {
-        let lista = searchTerm !== '' ? empleados : personajeByNombre;
-        if (lista) {
+    else if (isSuccess) {
+        let lista = searchTerm !== '' ? empleadoByNombre : empleados;
+        let texto_no_hay = searchTerm !== '' ? `No hay empleados para busqueda '${searchTerm}'` : 'No hay empleados';
+        if (lista)
             rows =
-                <>{
-                    (parseInt(lista.result) === 0) ? (
+                <>
+                {
+                    (parseInt(lista.results) === 0) ? (
                         <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                No hay empleados
+                            <th colSpan={6} scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white text-center">
+                                {texto_no_hay}
                             </th>
                         </tr>
                     ) :
                     getEmpleados(lista.empleados)
-                }</>
-        }
+                }
+                </>
     }
     else {
         rows =
@@ -66,8 +76,26 @@ export default function EmpleadosTable() {
                 </th>
             </tr>
     }
+    if (empleadoById)
+        modal =
+            <EmpleadoDetalle
+                id={idEmpleado}
+                nombre={empleadoById.nombre}
+                trabajo={empleadoById.trabajo}
+                salario={empleadoById.salario}
+                status={empleadoById.status}
+                foto={empleadoById.foto}
+                fecha_contratacion={empleadoById.fecha_contratacion}
+                onClose={() => setShowModal(true)}
+            />
+
     return (
     <div className="shadow-md sm:rounded-lg">
+        {idEmpleado && (
+            <div className={showModal ? "block" : "hidden"}>
+                {modal}
+            </div>
+        )}
         <div className="flex items-center justify-between pb-2">
             <div></div>
             <div className="mr-10">

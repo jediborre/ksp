@@ -1,15 +1,14 @@
-interface Empleado {
-    id: number;
-    foto: string;
-    nombre: string;
-    trabajo: string;
-    salario: number;
-    status: string;
-    fecha_contratacion: string
-};
-const EmpleadoRow: React.FC<Empleado> = (props) => {
+import { Empleado } from '../../store/api';
+
+interface Row {
+    click: (id: number) => void;
+}
+
+type Props = Empleado & Row;
+
+const EmpleadoRow: React.FC<Props> = (props): JSX.Element => {
     return (
-        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" onClick={() => props.click(props.id)}>
             <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 {props.nombre}
             </th>

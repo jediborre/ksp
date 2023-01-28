@@ -2,16 +2,16 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export interface EmpleadoQuery {
   status: number
-  result: string,
+  results: string,
   empleados: Empleado[],
 }
 export interface Empleado {
   id: number
-  nombre: string,
-  trabajo: string,
-  salario: number,
-  status: string,
   foto: string,
+  status: string,
+  nombre: string,
+  salario: number,
+  trabajo: string,
   fecha_contratacion: string,
 }
 export type Empleados = Empleado[];
@@ -28,7 +28,7 @@ type Beneficiarios = beneficiario[];
 
 const baseUrl = 'http://3.141.166.71:8080/';
 
-export const api = createApi({
+export const apiSlice = createApi({
   reducerPath: 'Empleados',
   baseQuery: fetchBaseQuery({ baseUrl }),
   tagTypes: ['Empleados', 'Beneficiarios'],
@@ -36,6 +36,9 @@ export const api = createApi({
     getEmpleados: builder.query<EmpleadoQuery, void>({
       query: () => `api/empleado/?limit=500&page=1`,
       providesTags: ['Empleados'],
+    }),
+    getEmpleadoById: builder.query<Empleado, number>({
+      query: (id) => `api/empleado/${id}`,
     }),
     getEmpleadosByNombre: builder.query<EmpleadoQuery, string>({
       query: (nombre) => `api/empleado/?limit=500&page=1&search=${encodeURIComponent(nombre)}`,
@@ -49,6 +52,7 @@ export const api = createApi({
 
 export const {
   useGetEmpleadosQuery,
+  useGetEmpleadoByIdQuery,
   useGetEmpleadosByNombreQuery,
   useGetBeneficiariosQuery
-} = api
+} = apiSlice

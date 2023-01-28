@@ -26,6 +26,23 @@ def get_empleados(
     }
 
 
+@router.get('/{id}')
+def get_empleado(
+    id: int,
+    db: Session = Depends(get_db),
+):
+    empleado_query = db.query(models.Empleados).filter(
+        models.Empleados.id == id
+    )
+    db_empleado = empleado_query.first()
+    if not db_empleado:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Empleado no encontrado"
+        )
+    return db_empleado
+
+
 @router.post('/', status_code=status.HTTP_201_CREATED)
 def create_empleado(
     payload: schema.EmpleadoSchema,

@@ -4,12 +4,12 @@ import ReactDOM from 'react-dom/client'
 import { RouterProvider } from 'react-router-dom'
 
 import router from './router'
-import { api } from './store/api'
+import { apiSlice } from './store/api'
 import { ApiProvider } from '@reduxjs/toolkit/query/react';
 
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <ApiProvider api={api}>
+  <ApiProvider api={apiSlice}>
     <RouterProvider router={router} />
   </ApiProvider>,
 )
