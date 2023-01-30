@@ -1,7 +1,6 @@
 #!/usr/bin/env sh
 
 # abort on errors
-set -e
 
 cd front
 npm run build
@@ -10,8 +9,6 @@ cd dist
 # place .nojekyll to bypass Jekyll processing
 echo > .nojekyll
 cd ..
-
-cp -a dist/ ../ 
 
 git init
 git checkout -B main
