@@ -13,8 +13,6 @@ cd ..
 
 cp -a dist/ ../ 
 
-# echo 'www.example.com' > CNAME
-
 git init
 git checkout -B main
 git add -A
