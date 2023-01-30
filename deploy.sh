@@ -9,6 +9,9 @@ cd dist
 
 # place .nojekyll to bypass Jekyll processing
 echo > .nojekyll
+cd ..
+
+cp -a dist/ ../ 
 
 # echo 'www.example.com' > CNAME
 
