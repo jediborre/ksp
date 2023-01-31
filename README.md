@@ -21,6 +21,7 @@ AWS EC2 free tier + AWS Aurora RDS MySQL
 Front End: React   // Carpeta /front
 Back End: FastAPI  // Carpeta /app
 
+
 Para correr el Server
 ```console
 ssh -i "tron.pem" ubuntu@ec2-3-141-166-71.us-east-2.compute.amazonaws.com
