@@ -26,7 +26,7 @@ export interface beneficiario {
 }
 type Beneficiarios = beneficiario[];
 
-const baseUrl = 'http://3.141.166.71:8080/';
+const baseUrl = 'http://localhost:8080/';
 
 export const apiSlice = createApi({
   reducerPath: 'Empleados',
