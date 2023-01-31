@@ -10,7 +10,7 @@ app = FastAPI(
     description="API para el proyecto KSP",
     version="0.1.0"
 )
-origins = ["*"]
+origins = ["http://localhost:8080", "http://localhost"]
 
 app.add_middleware(
     CORSMiddleware,
