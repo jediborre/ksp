@@ -8,13 +8,13 @@ Prueba enconmendada para KSP por Fernando Borrego Vargas
 ![API](ksp_sh_3.png?raw=true "API")
 
 Para visitar el FrontEnd
-http://3.141.166.71
+http://ec2-3-141-166-71.us-east-2.compute.amazonaws.com/
 
 Para visitar el BackEnd
-http://3.141.166.71:8080/
+http://ec2-3-141-166-71.us-east-2.compute.amazonaws.com:8080/
 
 Para los docs de la API
-http://3.141.166.71:8080/docs
+http://ec2-3-141-166-71.us-east-2.compute.amazonaws.com:8080/docs
 
 Infraestructura
 AWS EC2 free tier + AWS Aurora RDS MySQL
