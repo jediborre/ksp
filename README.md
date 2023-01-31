@@ -26,7 +26,7 @@ Para correr el Server
 ```console
 ssh -i "tron.pem" ubuntu@ec2-3-141-166-71.us-east-2.compute.amazonaws.com
 cd ksp
-python3 -m uvicorn app.main:app
+python3 -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
 Para modificar el archivo de configuracion nginx
