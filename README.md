@@ -1,25 +1,49 @@
 # KSP
-Prueba enconmendada por KSP
+Prueba enconmendada para KSP por Fernando Borrego Vargas
 
-Para correr backend
-```console
-uvicorn app.main:app --host localhost --port 8000 --reload
-```
+![Proyecto KSP](ksp_sh_1.png.jpg?raw=true "Proyecto KSP")
 
-Para instalacion driver MysqlDb en Windows 10 Python 3.8
-```console
-pip install mysqlclient-1.4.6-cp38-cp38-win32.whl
-```
+![Documentacion API](ksp_sh_1.png.jpg?raw=true "Documentacion API")
 
-Back-end AWS EC2
+![API](ksp_sh_3.png?raw=true "API")
+
+Para visitar el FrontEnd
+http://3.141.166.71
+
+Para visitar el BackEnd
+http://3.141.166.71:8080/
+
+Para los docs de la API
+http://3.141.166.71:8080/docs
+
+Infraestructura
+AWS EC2 free tier + AWS Aurora RDS MySQL
+Front End: React   // Carpeta /front
+Back End: FastAPI  // Carpeta /app
+
+Para correr el Server
 ```console
 ssh -i "tron.pem" ubuntu@ec2-3-141-166-71.us-east-2.compute.amazonaws.com
+cd ksp
+python3 -m uvicorn app.main:app
 ```
 
-http://3.141.166.71:8080/
-ec2-3-141-166-71.us-east-2.compute.amazonaws.com
+Para modificar el archivo de configuracion nginx
+```console
+sudo nano /etc/nginx/sites-enabled/fastapi_nginx
+sudo service nginx restart
+```
 
-RDS MySQL AWS
+Para realizar cambios al Front
+```console
+ssh -i "tron.pem" ubuntu@ec2-3-141-166-71.us-east-2.compute.amazonaws.com
+cd ksp/front
+npm build
+cd dist
+cp -R * /var/www/html/
+```
+
+RDS Aurora MySQL AWS
 ksp.c8nkbwvzvgzd.us-east-2.rds.amazonaws.com
 
 comando utilizado para respaldo de BD

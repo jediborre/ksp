@@ -9,7 +9,7 @@ cd dist
 # place .nojekyll to bypass Jekyll processing
 echo > .nojekyll
 cd ..
-
+W
 git init
 git checkout -B main
 git add -A
