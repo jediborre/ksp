@@ -3,7 +3,7 @@ Prueba enconmendada para KSP por Fernando Borrego Vargas
 
 ![Proyecto KSP](ksp_sh_1.png?raw=true "Proyecto KSP")
 
-![Documentacion API](ksp_sh_1.png?raw=true "Documentacion API")
+![Documentacion API](ksp_sh_2.png?raw=true "Documentacion API")
 
 ![API](ksp_sh_3.png?raw=true "API")
 
